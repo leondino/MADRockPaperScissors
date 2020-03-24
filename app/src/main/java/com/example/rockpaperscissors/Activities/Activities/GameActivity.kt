@@ -32,6 +32,7 @@ class GameActivity : AppCompatActivity() {
         btnRock.setOnClickListener { onRockClick() }
         btnPaper.setOnClickListener { onPaperClick() }
         btnScissors.setOnClickListener { onScissorClick() }
+        updateStatistics()
     }
 
     private fun onRockClick() =
@@ -72,11 +73,12 @@ class GameActivity : AppCompatActivity() {
                 R.drawable.scissors
             )
         }
+
+        updateStatistics()
     }
 
     private fun onGamePlay(playerSet: Int){
         calculateGame(playerSet)
-        updateUI(playerSet)
         // Create a game object and insert it into database
         mainScope.launch {
             val date = Calendar.getInstance().time
@@ -84,6 +86,22 @@ class GameActivity : AppCompatActivity() {
             withContext(Dispatchers.IO){
                 gameRepository.insertGame(game)
             }
+        }
+        updateUI(playerSet)
+    }
+
+    private fun updateStatistics(){
+        mainScope.launch {
+            val wins = withContext(Dispatchers.IO){
+                gameRepository.getWins()
+            }
+            val loses = withContext(Dispatchers.IO){
+                gameRepository.getLoses()
+            }
+            val draws = withContext(Dispatchers.IO){
+                gameRepository.getDraws()
+            }
+            tvStatistics.text = getString(R.string.statistics, wins, draws, loses)
         }
     }
 

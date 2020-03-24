@@ -17,4 +17,10 @@ class GameRepository(context: Context) {
 
     suspend fun deleteAllGames() = gameDao.deleteAllGames()
 
+    suspend fun getWins() : Int? = gameDao.getWins()
+
+    suspend fun getLoses(): Int? = gameDao.getLoses()
+
+    suspend fun getDraws(): Int? = gameDao.getDraws()
+
 }
