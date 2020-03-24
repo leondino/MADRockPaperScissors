@@ -18,7 +18,7 @@ data class Game (
     var playerSet: Int,
 
     @ColumnInfo(name = "computer set")
-    var computerSet: Int,
+    var computerSet: Int?,
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

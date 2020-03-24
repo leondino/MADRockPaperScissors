@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rockpaperscissors.Activities.Entities.Game
 import com.example.rockpaperscissors.R
 import kotlinx.android.synthetic.main.activity_history.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HistoryActivity : AppCompatActivity() {
 
@@ -30,6 +33,27 @@ class HistoryActivity : AppCompatActivity() {
         rvGames.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rvGames.adapter = gameAdapter
         rvGames.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        getGamesFromDatabase()
+    }
+
+    private fun getGamesFromDatabase(){
+        GameActivity.mainScope.launch {
+            val games = withContext(Dispatchers.IO){
+                GameActivity.gameRepository.getAllGames()
+            }
+            this@HistoryActivity.games.clear()
+            this@HistoryActivity.games.addAll(games)
+            this@HistoryActivity.gameAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun deleteGames(){
+        GameActivity.mainScope.launch {
+            withContext(Dispatchers.IO){
+                GameActivity.gameRepository.deleteAllGames()
+            }
+            getGamesFromDatabase()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -45,7 +69,7 @@ class HistoryActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_delete_history -> {
-
+                deleteGames()
                 true
             }
             android.R.id.home -> {

@@ -5,8 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.example.rockpaperscissors.Activities.Database.GameRepository
+import com.example.rockpaperscissors.Activities.Entities.Game
 import com.example.rockpaperscissors.R
 import kotlinx.android.synthetic.main.activity_game.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
 
 class GameActivity : AppCompatActivity() {
 
@@ -17,6 +24,7 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        gameRepository = GameRepository(this)
         initViews()
     }
 
@@ -70,6 +78,13 @@ class GameActivity : AppCompatActivity() {
         calculateGame(playerSet)
         updateUI(playerSet)
         // Create a game object and insert it into database
+        mainScope.launch {
+            val date = Calendar.getInstance().time
+            val game = Game(date, gameOutcome, playerSet, computerSet)
+            withContext(Dispatchers.IO){
+                gameRepository.insertGame(game)
+            }
+        }
     }
 
     private fun calculateGame(playerSet: Int){
@@ -129,6 +144,8 @@ class GameActivity : AppCompatActivity() {
         const val ROCK = 0
         const val PAPER = 1
         const val SCISSORS = 2
+        lateinit var gameRepository: GameRepository
+        val mainScope = CoroutineScope(Dispatchers.Main)
     }
 
 }
