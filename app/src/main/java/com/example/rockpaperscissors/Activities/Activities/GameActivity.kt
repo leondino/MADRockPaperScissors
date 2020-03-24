@@ -1,13 +1,9 @@
-package com.example.rockpaperscissors
+package com.example.rockpaperscissors.Activities.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.room.Update
+import com.example.rockpaperscissors.R
 import kotlinx.android.synthetic.main.activity_game.*
-
-const val ROCK = 0
-const val PAPER = 1
-const val SCISSORS = 2
 
 class GameActivity : AppCompatActivity() {
 
@@ -44,14 +40,26 @@ class GameActivity : AppCompatActivity() {
             else -> print("Error, invalid outcome")
         }
         when(playerSet){
-            ROCK -> ivPlayer.setImageResource(R.drawable.rock)
-            PAPER -> ivPlayer.setImageResource(R.drawable.paper)
-            SCISSORS -> ivPlayer.setImageResource(R.drawable.scissors)
+            ROCK -> ivPlayer.setImageResource(
+                R.drawable.rock
+            )
+            PAPER -> ivPlayer.setImageResource(
+                R.drawable.paper
+            )
+            SCISSORS -> ivPlayer.setImageResource(
+                R.drawable.scissors
+            )
         }
         when(computerSet){
-            ROCK -> ivComputer.setImageResource(R.drawable.rock)
-            PAPER -> ivComputer.setImageResource(R.drawable.paper)
-            SCISSORS -> ivComputer.setImageResource(R.drawable.scissors)
+            ROCK -> ivComputer.setImageResource(
+                R.drawable.rock
+            )
+            PAPER -> ivComputer.setImageResource(
+                R.drawable.paper
+            )
+            SCISSORS -> ivComputer.setImageResource(
+                R.drawable.scissors
+            )
         }
     }
 
@@ -88,4 +96,11 @@ class GameActivity : AppCompatActivity() {
             else -> print("Error, invalid player set")
         }
     }
+
+    companion object{
+        const val ROCK = 0
+        const val PAPER = 1
+        const val SCISSORS = 2
+    }
+
 }
