@@ -12,4 +12,7 @@
     <string name="win_text">You win!</string>
     <string name="lose_text">Computer wins!</string>
     <string name="draw_text">Draw</string>
+    <string name="check_history">Check game history</string>
+    <string name="delete_history">Delete game history</string>
+    <string name="title_history">Your Game History</string>
 </resources>

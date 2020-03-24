@@ -1,7 +1,10 @@
 package com.example.rockpaperscissors.Activities.Activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.example.rockpaperscissors.R
 import kotlinx.android.synthetic.main.activity_game.*
 
@@ -94,6 +97,31 @@ class GameActivity : AppCompatActivity() {
                     else -> print("Error, invalid computer set")
                 }
             else -> print("Error, invalid player set")
+        }
+    }
+
+    private fun startHistoryActivity(){
+        val intent = Intent(this, HistoryActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_game, menu)
+        return true
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.action_check_history -> {
+                startHistoryActivity()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
